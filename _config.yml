@@ -3,8 +3,7 @@ author:
   name: odjacobs
   email: contact@disc0.net
 description: > # this means to ignore newlines until "show_excerpts:"
-  This is my personal site where I will showcase my achievements
-  and document my projects.
+  
 
 show_excerpts: false # set to true to show excerpts on the homepage
 

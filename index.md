@@ -8,3 +8,5 @@
 layout: home
 ---
 # Home
+
+This is my personal site where I will showcase my achievements and document my projects.

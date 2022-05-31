@@ -4,4 +4,8 @@ title: About
 permalink: /about/
 ---
 
-This is my personal site where I will showcase my achievements and document my projects.
+## About me  
+|Things I like| Things I don't like|
+|-|-:|
+|Linux|Windows|
+|Open source projects|Closed source bloatware|

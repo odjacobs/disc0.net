@@ -5,7 +5,17 @@ permalink: /about/
 ---
 
 ## About me  
-|Things I like| Things I don't like|
-|-|-:|
-|Linux|Windows|
-|Open source projects|Closed source bloatware|
+<table>
+    <tr>
+        <th>Things I like</th>
+        <th>Things I don't like</th>
+    </tr>
+    <tr>
+        <td>Linux</td>
+        <td>Windows</td>
+    </tr>
+    <tr>
+        <td>Open source projects</td>
+        <td>Closed source bloatware</td>
+    </tr>
+</table>

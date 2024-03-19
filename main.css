@@ -1,0 +1,91 @@
+body {
+  background-color: #0072c6;
+  background-image: url("img/win\ 7.png");
+  background-size: 100%;
+  font-family: arial;
+  padding: 0;
+  margin: 0;
+}
+
+.container-flex {
+  display: flex;
+  width: 100%;
+}
+
+.flex-column-wide {
+  flex: 60%;
+  max-width: 60%;
+  padding: 0 4px;
+}
+
+.flex-column {
+  flex: 40%;
+  max-width: 40%;
+  padding: 0 8px;
+}
+
+.flex-column-quadrant {
+  flex: 25%;
+  max-width: 25%;
+  padding: 0 8px;
+}
+
+.text-crapper {
+  color: white;
+  text-shadow: 2px 2px 1px black;
+}
+
+.main-title {
+  text-align: center;
+  color: black;
+  -webkit-text-stroke: 1px white;
+  font-size: 48px;
+  text-shadow: 1px 1px 1px black;
+  font-weight: bold;
+}
+
+.flex-row {
+  flex-direction: row;
+  /* background-color: rgb(255, 255, 255, 0.75); */
+  background-image: url(img/slackware-background.jpg);
+  border: solid 1px black;
+  margin: 5px;
+  padding: 5px;
+}
+.heading-tight {
+  margin-top: 5px;
+}
+
+.news-date {
+  float: right;
+}
+
+.flex-gallery {
+  padding: 4px;
+  border: solid 1px black;
+  margin: 4px;
+}
+
+.flex-gallery .caption-large {
+  text-align: center;
+  margin: 0px;
+}
+
+.img-gif-thumbstatic:hover {
+  opacity: 0;
+}
+
+.img-gif-thumbstatic {
+  position: absolute;
+}
+
+.start-menu-entry {
+  display: flex;
+  flex-direction: column;
+}
+
+.sm-text {
+  background-color: rgb(255, 255, 255, 0.75);
+  width: fit-content;
+  display: inline;
+}

@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta charset="UTF-8" />
+    <style type="text/css">
+      :root {
+        font-family: sans-serif;
+      }
+      img {
+        border: 0;
+      }
+      th {
+        text-align: start;
+        white-space: nowrap;
+      }
+      th > a {
+        color: inherit;
+      }
+      table[order] > thead > tr > th {
+        cursor: pointer;
+      }
+      table[order] > thead > tr > th::after {
+        display: none;
+        width: 0.8em;
+        margin-inline-end: -0.8em;
+        text-align: end;
+      }
+      table[order="asc"] > thead > tr > th::after {
+        content: "\2193"; /* DOWNWARDS ARROW (U+2193) */
+      }
+      table[order="desc"] > thead > tr > th::after {
+        content: "\2191"; /* UPWARDS ARROW (U+2191) */
+      }
+      table[order][order-by="0"] > thead > tr > th:first-child > a,
+      table[order][order-by="1"] > thead > tr > th:first-child + th > a,
+      table[order][order-by="2"] > thead > tr > th:first-child + th + th > a {
+        text-decoration: underline;
+      }
+      table[order][order-by="0"] > thead > tr > th:first-child::after,
+      table[order][order-by="1"] > thead > tr > th:first-child + th::after,
+      table[order][order-by="2"]
+        > thead
+        > tr
+        > th:first-child
+        + th
+        + th::after {
+        display: inline-block;
+      }
+      table.remove-hidden > tbody > tr.hidden-object {
+        display: none;
+      }
+      td {
+        white-space: nowrap;
+      }
+      table.ellipsis {
+        width: 100%;
+        table-layout: fixed;
+        border-spacing: 0;
+      }
+      table.ellipsis > tbody > tr > td {
+        padding: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      /* name */
+      /* name */
+      th:first-child {
+        padding-inline-end: 2em;
+      }
+      /* size */
+      th:first-child + th {
+        padding-inline-end: 1em;
+      }
+      td:first-child + td {
+        text-align: end;
+        padding-inline-end: 1em;
+      }
+      /* date */
+      td:first-child + td + td {
+        padding-inline-start: 1em;
+        padding-inline-end: 0.5em;
+      }
+      /* time */
+      td:first-child + td + td + td {
+        padding-inline-start: 0.5em;
+      }
+      .symlink {
+        font-style: italic;
+      }
+      .dir,
+      .symlink,
+      .file {
+        margin-inline-start: 20px;
+      }
+      .dir::before,
+      .file > img {
+        margin-inline-end: 4px;
+        margin-inline-start: -20px;
+        max-width: 16px;
+        max-height: 16px;
+        vertical-align: middle;
+      }
+      .dir::before {
+        content: url(resource://gre/res/html/folder.png);
+      }
+    </style>
+    <link
+      rel="stylesheet"
+      media="screen, projection"
+      type="text/css"
+      href="index_files/dirListing.css"
+    />
+    <script type="application/javascript">
+      "use strict";
+      var gTable, gOrderBy, gTBody, gRows, gUI_showHidden;
+      document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+          gTable = document.getElementsByTagName("table")[0];
+          gTBody = gTable.tBodies[0];
+          if (gTBody.rows.length < 2) return;
+          gUI_showHidden = document.getElementById("UI_showHidden");
+          var headCells = gTable.tHead.rows[0].cells,
+            hiddenObjects = false;
+          function rowAction(i) {
+            return function (event) {
+              event.preventDefault();
+              orderBy(i);
+            };
+          }
+          for (var i = headCells.length - 1; i >= 0; i--) {
+            var anchor = document.createElement("a");
+            anchor.href = "";
+            anchor.appendChild(headCells[i].firstChild);
+            headCells[i].appendChild(anchor);
+            headCells[i].addEventListener("click", rowAction(i), true);
+          }
+          if (gUI_showHidden) {
+            gRows = Array.slice(gTBody.rows);
+            hiddenObjects = gRows.some(
+              (row) => row.className == "hidden-object"
+            );
+          }
+          gTable.setAttribute("order", "");
+          if (hiddenObjects) {
+            gUI_showHidden.style.display = "block";
+            updateHidden();
+          }
+        },
+        "false"
+      );
+      function compareRows(rowA, rowB) {
+        var a = rowA.cells[gOrderBy].getAttribute("sortable-data") || "";
+        var b = rowB.cells[gOrderBy].getAttribute("sortable-data") || "";
+        var intA = +a;
+        var intB = +b;
+        if (a == intA && b == intB) {
+          a = intA;
+          b = intB;
+        } else {
+          a = a.toLowerCase();
+          b = b.toLowerCase();
+        }
+        if (a < b) return -1;
+        if (a > b) return 1;
+        return 0;
+      }
+      function orderBy(column) {
+        if (!gRows) gRows = Array.slice(gTBody.rows);
+        var order;
+        if (gOrderBy == column) {
+          order = gTable.getAttribute("order") == "asc" ? "desc" : "asc";
+        } else {
+          order = "asc";
+          gOrderBy = column;
+          gTable.setAttribute("order-by", column);
+          gRows.sort(compareRows);
+        }
+        gTable.removeChild(gTBody);
+        gTable.setAttribute("order", order);
+        if (order == "asc")
+          for (var i = 0; i < gRows.length; i++) gTBody.appendChild(gRows[i]);
+        else
+          for (var i = gRows.length - 1; i >= 0; i--)
+            gTBody.appendChild(gRows[i]);
+        gTable.appendChild(gTBody);
+      }
+      function updateHidden() {
+        gTable.className = gUI_showHidden.getElementsByTagName("input")[0]
+          .checked
+          ? ""
+          : "remove-hidden";
+      }
+    </script>
+    <link
+      rel="icon"
+      type="image/png"
+      href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8%2F9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAjFJREFUeNqsU8uOElEQPffR3XQ3ONASdBJCSBxHos5%2B3Bg3rvkCv8PElS78gPkO%2FATjQoUdO2ftrJiRh6aneTb9sOpC4weMN6lcuFV16pxDIfI8x12OYIDhcPiu2Wx%2B%2FHF5CW1Z6Jyegt%2FTNEWSJIjjGFEUIQxDrFYrWFSzXC4%2FdLvd95pRKpXKy%2BpRFZ7nwaWo1%2BsGnQG2260BKJfLKJVKGI1GEEJw7ateryd0v993W63WEwjgxfn5obGYzgCbzcaEbdsIggDj8Riu6z6iUk9SYZMSx8W0LMsM%2FSKK75xnJlIq80anQXdbEp0OhcPJ0eiaJnGRMEyyPDsAKKUM9clkYoDo3SZJzzSdp0VSKYmfV1co%2Bz580kw5KDIM8RbRfEnUf1HzxtQyMAGcaGruTKczMzEIaqhKifV6jd%2BzGQQB5llunF%2FM52BizC2K5sYPYvZcu653tjOM9O93wnYc08gmkgg4VAxixfqFUJT36AYBZGd6PJkFCZnnlBxMp38gqIgLpZB0y4Nph18lyWh5FFbrOSxbl3V4G%2BVB7T4ajYYxTyuLtO%2BCvWGgJE1Mc7JNsJEhvgw%2FQV4fo%2F24nbEsX2u1d5sVyn8sJO0ZAQiIYnFh%2BxrfLz%2Fj29cBS%2FO14zg3i8XigW3ZkErDtmKoeM%2BAJGRMnXeEPGKf0nCD1ydvkDzU9Jbc6OpR7WIw6L8lQ%2B4pQ1%2FlPF0RGM9Ns91Wmptk0GfB4EJkt77vXYj%2F8m%2B8y%2FkrwABHbz2H9V68DQAAAABJRU5ErkJggg%3D%3D"
+    />
+    <title>Index of misc</title>
+    <!-- base href="" -->
+  </head>
+  <body dir="ltr">
+    <h1>Index of misc</h1>
+    <p id="UI_goUp">
+      <a class="up" href="https://www.disc0.net/"
+        >Up to higher level directory</a
+      >
+    </p>
+    <p id="UI_showHidden" style="display: none">
+      <label
+        ><input
+          checked="checked"
+          onchange="updateHidden()"
+          type="checkbox"
+        />Show hidden objects</label
+      >
+    </p>
+    <table order="">
+      <thead>
+        <tr>
+          <th><a href="">Name</a></th>
+          <th><a href="">Size</a></th>
+          <th colspan="2"><a href="">Last Modified</a></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td sortable-data="20512-ffl-list-kansas.xls">
+            <table class="ellipsis">
+              <tbody>
+                <tr>
+                  <td>
+                    <a class="file" href="0512-ffl-list-kansas.xls"
+                      ><img
+                        src="index_files/a_005"
+                        alt="File:"
+                      />0512-ffl-list-kansas.xls</a
+                    >
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td sortable-data="397312">388 KB</td>
+          <td sortable-data="1697662946000000">10/18/2023</td>
+          <td>5:02:26 PM</td>
+        </tr>
+        <tr>
+          <td sortable-data="2200606BealCon.ppt">
+            <table class="ellipsis">
+              <tbody>
+                <tr>
+                  <td>
+                    <a class="file" href="200606BealCon.ppt"
+                      ><img
+                        src="index_files/a"
+                        alt="File:"
+                      />200606BealCon.ppt</a
+                    >
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td sortable-data="638976">624 KB</td>
+          <td sortable-data="1697662587000000">10/18/2023</td>
+          <td>4:56:27 PM</td>
+        </tr>
+        <tr>
+          <td sortable-data="226-security2.ppt">
+            <table class="ellipsis">
+              <tbody>
+                <tr>
+                  <td>
+                    <a class="file" href="26-security2.ppt"
+                      ><img
+                        src="index_files/a"
+                        alt="File:"
+                      />26-security2.ppt</a
+                    >
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td sortable-data="498176">487 KB</td>
+          <td sortable-data="1708623797000000">2/22/2024</td>
+          <td>12:43:17 PM</td>
+        </tr>
+        <tr>
+          <td sortable-data="2BNSF RCL - TIM BOX.ppt">
+            <table class="ellipsis">
+              <tbody>
+                <tr>
+                  <td>
+                    <a class="file" href="BNSF%20RCL%20-%20TIM%20BOX.ppt"
+                      ><img src="index_files/a" alt="File:" />BNSF RCL - TIM
+                      BOX.ppt</a
+                    >
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td sortable-data="556032">543 KB</td>
+          <td sortable-data="1697662853000000">10/18/2023</td>
+          <td>5:00:53 PM</td>
+        </tr>
+        <tr>
+          <td
+            sortable-data="2Cybersecurity Awareness Month 2023 101 PPT FINAL_508c.pptx"
+          >
+            <table class="ellipsis">
+              <tbody>
+                <tr>
+                  <td>
+                    <a
+                      class="file"
+                      href="Cybersecurity%20Awareness%20Month%202023%20101%20PPT%20FINAL_508c.pptx"
+                      ><img src="index_files/a_002" alt="File:" />Cybersecurity
+                      Awareness Month 2023 101 PPT FINAL_508c.pptx</a
+                    >
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td sortable-data="2982752">2913 KB</td>
+          <td sortable-data="1708623957000000">2/22/2024</td>
+          <td>12:45:57 PM</td>
+        </tr>
+        <tr>
+          <td
+            sortable-data="2DIB_SCC_L2Suppliers_Training_Resource-Guide_v1.0.pptx"
+          >
+            <table class="ellipsis">
+              <tbody>
+                <tr>
+                  <td>
+                    <a
+                      class="file"
+                      href="DIB_SCC_L2Suppliers_Training_Resource-Guide_v1.0.pptx"
+                      ><img
+                        src="index_files/a_002"
+                        alt="File:"
+                      />DIB_SCC_L2Suppliers_Training_Resource-Guide_v1.0.pptx</a
+                    >
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td sortable-data="130274">128 KB</td>
+          <td sortable-data="1708623983000000">2/22/2024</td>
+          <td>12:46:23 PM</td>
+        </tr>
+        <tr>
+          <td sortable-data="2FY2015 NLRB Elections - Summary-Web-Version.xls">
+            <table class="ellipsis">
+              <tbody>
+                <tr>
+                  <td>
+                    <a
+                      class="file"
+                      href="FY2015%20NLRB%20Elections%20-%20Summary-Web-Version.xls"
+                      ><img src="index_files/a_005" alt="File:" />FY2015 NLRB
+                      Elections - Summary-Web-Version.xls</a
+                    >
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td sortable-data="600576">587 KB</td>
+          <td sortable-data="1697663490000000">10/18/2023</td>
+          <td>5:11:30 PM</td>
+        </tr>
+        <tr>
+          <td sortable-data="2OWASP-v1.0.pptx">
+            <table class="ellipsis">
+              <tbody>
+                <tr>
+                  <td>
+                    <a class="file" href="OWASP-v1.0.pptx"
+                      ><img
+                        src="index_files/a_002"
+                        alt="File:"
+                      />OWASP-v1.0.pptx</a
+                    >
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td sortable-data="3159040">3085 KB</td>
+          <td sortable-data="1708623910000000">2/22/2024</td>
+          <td>12:45:10 PM</td>
+        </tr>
+        <tr>
+          <td
+            sortable-data="2Presidential-Helicopter-Contributions-updated.xls"
+          >
+            <table class="ellipsis">
+              <tbody>
+                <tr>
+                  <td>
+                    <a
+                      class="file"
+                      href="Presidential-Helicopter-Contributions-updated.xls"
+                      ><img
+                        src="index_files/a_005"
+                        alt="File:"
+                      />Presidential-Helicopter-Contributions-updated.xls</a
+                    >
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td sortable-data="5655552">5523 KB</td>
+          <td sortable-data="1697662896000000">10/18/2023</td>
+          <td>5:01:36 PM</td>
+        </tr>
+        <tr>
+          <td sortable-data="2Social_Media_46865_48584.ppt">
+            <table class="ellipsis">
+              <tbody>
+                <tr>
+                  <td>
+                    <a class="file" href="Social_Media_46865_48584.ppt"
+                      ><img
+                        src="index_files/a"
+                        alt="File:"
+                      />Social_Media_46865_48584.ppt</a
+                    >
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td sortable-data="1366016">1334 KB</td>
+          <td sortable-data="1697662621000000">10/18/2023</td>
+          <td>4:57:01 PM</td>
+        </tr>
+        <tr>
+          <td sortable-data="2TalentMismatch--ManpowerGp.pps">
+            <table class="ellipsis">
+              <tbody>
+                <tr>
+                  <td>
+                    <a class="file" href="TalentMismatch--ManpowerGp.pps"
+                      ><img
+                        src="index_files/a_006"
+                        alt="File:"
+                      />TalentMismatch--ManpowerGp.pps</a
+                    >
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td sortable-data="3823616">3734 KB</td>
+          <td sortable-data="1697662793000000">10/18/2023</td>
+          <td>4:59:53 PM</td>
+        </tr>
+        <tr>
+          <td sortable-data="2UCA End User Training_v7.0.ppt">
+            <table class="ellipsis">
+              <tbody>
+                <tr>
+                  <td>
+                    <a class="file" href="UCA%20End%20User%20Training_v7.0.ppt"
+                      ><img src="index_files/a" alt="File:" />UCA End User
+                      Training_v7.0.ppt</a
+                    >
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td sortable-data="7664640">7485 KB</td>
+          <td sortable-data="1697662732000000">10/18/2023</td>
+          <td>4:58:52 PM</td>
+        </tr>
+        <tr>
+          <td sortable-data="2awesome.mp3">
+            <table class="ellipsis">
+              <tbody>
+                <tr>
+                  <td>
+                    <a class="file" href="awesome.mp3"
+                      ><img src="index_files/a_007" alt="File:" />awesome.mp3</a
+                    >
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td sortable-data="4381812">4280 KB</td>
+          <td sortable-data="1697558028000000">10/17/2023</td>
+          <td>11:53:48 AM</td>
+        </tr>
+        <tr>
+          <td
+            sortable-data="2lanapolitanaxd-20240306_033347-0946F4397E84AD2F1AFBFB6BFA7971A4_video_dashinit.mp4"
+          >
+            <table class="ellipsis">
+              <tbody>
+                <tr>
+                  <td>
+                    <a
+                      class="file"
+                      href="lanapolitanaxd-20240306_033347-0946F4397E84AD2F1AFBFB6BFA7971A4_video_dashinit.mp4"
+                      ><img
+                        src="index_files/a_003"
+                        alt="File:"
+                      />lanapolitanaxd-20240306_033347-0946F4397E84AD2F1AFBFB6BFA7971A4_video_dashinit.mp4</a
+                    >
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td sortable-data="4342657">4241 KB</td>
+          <td sortable-data="1709841313000000">3/7/2024</td>
+          <td>2:55:13 PM</td>
+        </tr>
+        <tr>
+          <td sortable-data="2lec21-security.ppt">
+            <table class="ellipsis">
+              <tbody>
+                <tr>
+                  <td>
+                    <a class="file" href="lec21-security.ppt"
+                      ><img
+                        src="index_files/a"
+                        alt="File:"
+                      />lec21-security.ppt</a
+                    >
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td sortable-data="545280">533 KB</td>
+          <td sortable-data="1708623672000000">2/22/2024</td>
+          <td>12:41:12 PM</td>
+        </tr>
+        <tr>
+          <td sortable-data="2music.mp3">
+            <table class="ellipsis">
+              <tbody>
+                <tr>
+                  <td>
+                    <a class="file" href="music.mp3"
+                      ><img src="index_files/a_007" alt="File:" />music.mp3</a
+                    >
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td sortable-data="8396925">8201 KB</td>
+          <td sortable-data="1697144746000000">10/12/2023</td>
+          <td>5:05:46 PM</td>
+        </tr>
+        <tr>
+          <td sortable-data="2netsec.ppt">
+            <table class="ellipsis">
+              <tbody>
+                <tr>
+                  <td>
+                    <a class="file" href="netsec.ppt"
+                      ><img src="index_files/a" alt="File:" />netsec.ppt</a
+                    >
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td sortable-data="440832">431 KB</td>
+          <td sortable-data="1708623853000000">2/22/2024</td>
+          <td>12:44:13 PM</td>
+        </tr>
+        <tr>
+          <td sortable-data="2pbgc-se-trusteed.xls">
+            <table class="ellipsis">
+              <tbody>
+                <tr>
+                  <td>
+                    <a class="file" href="pbgc-se-trusteed.xls"
+                      ><img
+                        src="index_files/a_005"
+                        alt="File:"
+                      />pbgc-se-trusteed.xls</a
+                    >
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td sortable-data="1032192">1008 KB</td>
+          <td sortable-data="1697663436000000">10/18/2023</td>
+          <td>5:10:36 PM</td>
+        </tr>
+        <tr>
+          <td sortable-data="2pfe101i.zip">
+            <table class="ellipsis">
+              <tbody>
+                <tr>
+                  <td>
+                    <a class="file" href="pfe101i.zip"
+                      ><img src="index_files/a_004" alt="File:" />pfe101i.zip</a
+                    >
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td sortable-data="621838">608 KB</td>
+          <td sortable-data="1702911722000000">12/18/2023</td>
+          <td>10:02:02 AM</td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>

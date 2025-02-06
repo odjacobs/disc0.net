@@ -1,0 +1,10 @@
+- name: Home
+  link: /
+- name: About
+  link: /about
+- name: Resume
+  link: /resume
+- name: LinkedIn
+  link: https://www.linkedin.com/in/odjacobs
+- name: GitHub
+  link: https://github.com/odjacobs

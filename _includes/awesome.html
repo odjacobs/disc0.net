@@ -1,0 +1,11 @@
+<nav>
+    <h1>Awesome Links!</h1>
+    {% for i in (1..4) %}
+    <img src="img/tux.png" alt="" />
+    {% endfor %}
+    <ul>
+        {% for item in site.data.awesome %}
+        <li><a href="{{ item.link }}" target="_blank">{{ item.name }}</a></li>
+        {% endfor %}
+    </ul>
+</nav>

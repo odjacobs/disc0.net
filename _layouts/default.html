@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{page.title}} | {{site.name}}</title>
+
+    <link rel="stylesheet" href="/main.css" />
+
+</head>
+
+<body>
+    <div class="header">
+        <h2>&lt; Previous Site</h2>
+        <h1>Disc0.net</h1>
+        <h2>Next Site &gt;</h2>
+    </div>
+    <div class="left">
+        {% include navigation.html %}
+    </div>
+    <div class="center">
+        {{content}}
+    </div>
+    <div class="right">
+        {% include awesome.html %}
+    </div>
+    <div class="footer">
+        <p>&copy; 2025 Disc0.net</p>
+    </div>
+
+</body>
+
+</html>

@@ -27,8 +27,6 @@ body {
 .header {
   grid-area: hd;
   text-align: center;
-  justify-content: space-between;
-  display: flex;
 }
 
 .left {
@@ -45,7 +43,13 @@ body {
 
 .footer {
   grid-area: ft;
-  text-align: center;
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+}
+
+.footer a {
+  display: inline;
 }
 
 div {

@@ -1,12 +1,16 @@
 - name: Debian Linux
   link: https://debian.org
-- name: Rocky Linux
-  link: https://rockylinux.org/
-- name: Slackware Linux
-  link: http://www.slackware.com
-- name: Pale Moon Project
-  link: https://www.palemoon.org
 - name: Ladybird Browser
   link: https://ladybird.org/
+- name: Mullvad VPN
+  link: https://mullvad.net/
+- name: Pale Moon Project
+  link: https://www.palemoon.org
+- name: Rocky Linux
+  link: https://rockylinux.org/
+- name: Signal Messenger
+  link: https://signal.org/
+- name: Slackware Linux
+  link: http://www.slackware.com
 - name: Super Cool Start Menu thing made in CSS
   link: https://cssdeck.com/labs/full/pure-css3-windows-7-start-menu

@@ -52,6 +52,10 @@ body {
   display: inline;
 }
 
+.footer * {
+  margin: auto;
+}
+
 div {
   /* background-image: url(img/136.png); */
   background-color: rgba(255, 255, 255, 0.4);

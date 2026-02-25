@@ -1,12 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ site.lang | default: 'en-US' }}">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{page.title}} | {{site.name}}</title>
+    <title>{% if page.title %}{{ page.title }} | {{ site.title | default: site.name }}{% else %}{{ site.title | default: site.name }}{% endif %}</title>
+    {% assign seo_description = page.description | default: page.excerpt | default: site.description %}
+    {% if seo_description %}
+    <meta name="description" content="{{ seo_description | strip_html | normalize_whitespace | escape }}">
+    {% endif %}
+    <link rel="canonical" href="{{ page.url | absolute_url }}">
 
-    <link rel="stylesheet" href="/main.css" />
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="{{ site.title | default: site.name }}">
+    <meta property="og:title" content="{% if page.title %}{{ page.title }} | {{ site.title | default: site.name }}{% else %}{{ site.title | default: site.name }}{% endif %}">
+    <meta property="og:url" content="{{ page.url | absolute_url }}">
+    {% if seo_description %}
+    <meta property="og:description" content="{{ seo_description | strip_html | normalize_whitespace | escape }}">
+    {% endif %}
+    {% assign seo_image = page.image | default: site.image %}
+    {% if seo_image %}
+    <meta property="og:image" content="{{ seo_image | absolute_url }}">
+    {% endif %}
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{% if page.title %}{{ page.title }} | {{ site.title | default: site.name }}{% else %}{{ site.title | default: site.name }}{% endif %}">
+    {% if seo_description %}
+    <meta name="twitter:description" content="{{ seo_description | strip_html | normalize_whitespace | escape }}">
+    {% endif %}
+    {% if seo_image %}
+    <meta name="twitter:image" content="{{ seo_image | absolute_url }}">
+    {% endif %}
+    {% if page.noindex %}
+    <meta name="robots" content="noindex, nofollow">
+    {% else %}
+    <meta name="robots" content="index, follow">
+    {% endif %}
+
+    <link rel="stylesheet" href="{{ '/main.css' | relative_url }}" />
 
 </head>
 
@@ -24,7 +55,7 @@
         {% include awesome.html %}
     </div>
     <div class="footer">
-        <h4>&copy; 2025 Disc0.net</h4>
+        <h4>&copy; 2026 Disc0.net</h4>
     </div>
 
 </body>

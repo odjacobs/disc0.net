@@ -1,4 +1,19 @@
 name: Disc0.net
+title: Disc0.net
+description: Personal site of Owen Jacobs focused on IT, open-source, and career updates.
+url: "https://disc0.net"
+baseurl: ""
+lang: en-US
+image: /img/Attention.png
+
+author:
+  name: Owen Jacobs
+
+social:
+  name: Owen Jacobs
+  links:
+    - https://github.com/odjacobs
+    - https://www.linkedin.com/in/odjacobs
 
 defaults:
   -
@@ -7,6 +22,7 @@ defaults:
       type: "pages"
     values:
       layout: "default"
+      image: /img/Attention.png
   -
     scope:
       path: ""
@@ -14,3 +30,4 @@ defaults:
     values:
       layout: "post"
       author: "Owen"
+      image: /img/Attention.png

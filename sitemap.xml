@@ -1,0 +1,15 @@
+---
+layout: null
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  {% assign all_pages = site.html_pages | concat: site.posts %}
+  {% for node in all_pages %}
+    {% unless node.sitemap == false or node.noindex == true %}
+  <url>
+    <loc>{{ node.url | absolute_url }}</loc>
+    {% if node.date %}<lastmod>{{ node.date | date_to_xmlschema }}</lastmod>{% endif %}
+  </url>
+    {% endunless %}
+  {% endfor %}
+</urlset>

@@ -1,7 +1,6 @@
-<nav>
-    <ul>
-        {% for item in site.data.navigation %}
-        <li><a href="{{ item.link }}" style="font-size: larger;">{{ item.name }}</a></li>
-        {% endfor %}
-    </ul>
-</nav>
+<div class="d0-navbar">
+  {% for item in site.data.navigation %}
+  <a href="{{ item.link }}" class="d0-navbtn{% if item.link == page.url %} is-active{% endif %}">{{ item.name }}</a>
+  {% endfor %}
+  <div class="d0-est">est. 2024</div>
+</div>

@@ -37,27 +37,77 @@
     <meta name="robots" content="index, follow">
     {% endif %}
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="{{ '/main.css' | relative_url }}" />
 
+    <script>
+      (function () {
+        var stored = localStorage.getItem('disc0-theme');
+        var theme = stored || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script>
 </head>
 
 <body>
-    <div class="header">
-        <h1>Disc0.net</h1>
-    </div>
-    <div class="left">
-        {% include navigation.html %}
-    </div>
-    <div class="center">
-        {{content}}
-    </div>
-    <div class="right">
-        {% include awesome.html %}
-    </div>
-    <div class="footer">
-        <h4>&copy; 2026 Disc0.net</h4>
+    <div class="d0-page">
+        <div class="d0-window">
+
+            <div class="d0-titlebar">
+                <div class="d0-brand">
+                    <div class="d0-logo">D</div>
+                    <span class="d0-wordmark">Disc0.net</span>
+                </div>
+                <div class="d0-marquee-wrap">
+                    <span class="d0-marquee">&#9733; welcome to my corner of the web &#9733; no ads, no trackers, no nonsense &#9733; powered by linux &amp; open source &#9733;</span>
+                </div>
+                <button class="d0-toggle" id="d0-theme-toggle" title="Toggle light / dark">&#9790;</button>
+            </div>
+
+            {% include navigation.html %}
+
+            <div class="d0-body">
+                <div class="d0-main">
+                    {% if page.url == "/" %}
+                        {{ content }}
+                    {% else %}
+                        <div class="d0-card">
+                            {{ content }}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="d0-sidebar">
+                    {% include awesome.html %}
+                </div>
+            </div>
+
+            <div class="d0-footer">
+                <span>&copy; 2026 Disc0.net</span>
+                <span class="d0-mint">best viewed with your eyes &mdash; on any browser you like</span>
+            </div>
+        </div>
     </div>
 
+    <script>
+      (function () {
+        var btn = document.getElementById('d0-theme-toggle');
+        function applyIcon() {
+          var theme = document.documentElement.getAttribute('data-theme');
+          btn.textContent = theme === 'dark' ? '☀' : '☾';
+        }
+        applyIcon();
+        btn.addEventListener('click', function () {
+          var current = document.documentElement.getAttribute('data-theme');
+          var next = current === 'dark' ? 'light' : 'dark';
+          document.documentElement.setAttribute('data-theme', next);
+          localStorage.setItem('disc0-theme', next);
+          applyIcon();
+        });
+      })();
+    </script>
 </body>
 
 </html>

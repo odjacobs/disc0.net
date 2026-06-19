@@ -3,36 +3,50 @@ title: Home
 description: Personal website of Owen Jacobs featuring IT background, open-source interests, and recent blog posts.
 ---
 
-<h1 class="main-title">
-  <img src="/img/Attention.png" alt="">
-  HI!
-  <img src="/img/Attention.png" alt="">
-</h1>
-<h2>Welcome to my website!</h2>
-<p>There's some fun random files <a href="misc">here</a></p>
-<p>&bull; Big Linux and open-source software enthusiast</p>
-<p>&bull; I hate ads, so you won't find any on this site.</p>
-<p>I think it would be cool to start a webring, if you want to join / start one with me, send me a message.</p>
-{% if site.posts.size >= 2 %}
-<h2>Blog posts</h2>
-<h3>Lastest Post</h3>
-<ul>
-  {% for post in site.posts limit:1 %}
-    <li>
-      <h4><a href="{{ post.url }}">{{ post.title }}</a></h4>
-      {{ post.excerpt }}
-    </li>
-  {% endfor %}
-</ul>
-{% endif %}
-{% if site.posts.size >= 2 %}
-  <h3>Previous Posts</h3>
-  <ul>
-    {% for post in site.posts offset:1 limit:2 %}
-      <li>
-        <h4><a href="{{ post.url }}">{{ post.title }}</a></h4>
-        {{ post.excerpt }}
-      </li>
-    {% endfor %}
+<div class="d0-hi">
+  <img src="{{ '/img/Attention.png' | relative_url }}" alt="">
+  <span>HI!</span>
+  <img src="{{ '/img/Attention.png' | relative_url }}" alt="">
+</div>
+
+<div class="d0-card">
+  <div class="d0-card-heading">&#9656; Welcome to my website!</div>
+  <p>There's some fun random files <a href="{{ '/misc' | relative_url }}" class="d0a-link">here</a> if you like to poke around.</p>
+  <ul class="d0-bullets">
+    <li>Big Linux and open-source software enthusiast.</li>
+    <li>I hate ads, so you won't find any on this site.</li>
   </ul>
-{% endif %}
+</div>
+
+<div class="d0-webring">
+  <div class="d0-webring-text"><strong>Start a webring with me?</strong><br>If you've got a site, let's link up the old-fashioned way.</div>
+  <div class="d0-webring-btns">
+    <a href="#" class="d0-navbtn d0-navbtn--sm">&#9664; prev</a>
+    <a href="#" class="d0-navbtn d0-navbtn--sm">rand</a>
+    <a href="#" class="d0-navbtn d0-navbtn--sm">next &#9654;</a>
+  </div>
+</div>
+
+<div class="d0-card">
+  <div class="d0-card-heading">&#9656; Latest from the blog</div>
+  {% assign latest = site.posts | first %}
+  {% if latest %}
+  <div class="d0-blog-post">
+    <a href="{{ latest.url | relative_url }}" class="d0a-link">{{ latest.title }}</a>
+    <time>{{ latest.date | date: "%b %-d, %Y" }}</time>
+    <p>{{ latest.excerpt | strip_html | truncatewords: 28 }}</p>
+  </div>
+  {% else %}
+  <div class="d0-blog-placeholder">[ latest post drops in here ]<br>title &middot; date &middot; excerpt &mdash; pulled from your posts</div>
+  {% endif %}
+</div>
+
+<div class="d0-badges">
+  <div class="d0-badge d0-badge--linux">LINUX<br>POWERED</div>
+  <div class="d0-badge d0-badge--eyes">BEST VIEWED<br>WITH EYES</div>
+  <div class="d0-badge d0-badge--noads">100% NO<br>ADS</div>
+  <div class="d0-badge d0-badge--html">MADE WITH<br>HTML</div>
+  <div class="d0-counter">
+    <img src="https://hits.sh/disc0.net.svg?style=flat-square&label=visitors&color=211d16&labelColor=211d16" alt="visitor count" class="d0-counter-img">
+  </div>
+</div>

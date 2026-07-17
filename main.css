@@ -14,6 +14,7 @@
   --gold: #f4d35e;
   --link: #5a3aa6;
   --link-hover: #d2542f;
+  --link-visited: #8a4a86;
   --muted: #8a7e63;
   --btn: #d7ccb2;
   --btn-active: #fbf7ea;
@@ -38,6 +39,7 @@
   --gold: #f4d35e;
   --link: #c3a3ff;
   --link-hover: #ffb38a;
+  --link-visited: #a58bd6;
   --muted: #9a8d70;
   --btn: #2f2819;
   --btn-active: #3a3220;
@@ -302,13 +304,20 @@ body {
   color: var(--coral);
 }
 
-.d0a-link {
+.d0a-link,
+a:not([class]) {
   color: var(--link);
   text-decoration: underline;
   text-underline-offset: 2px;
 }
 
-.d0a-link:hover {
+.d0a-link:visited,
+a:not([class]):visited {
+  color: var(--link-visited);
+}
+
+.d0a-link:hover,
+a:not([class]):hover {
   color: var(--link-hover);
 }
 

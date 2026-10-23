@@ -1,0 +1,31 @@
+---
+layout: game
+title: Games
+description: Simple, relaxing games for your phone. No ads, no accounts, works offline. Add it to your home screen.
+image: /games/icons/icon-512.png
+back: /
+back_label: disc0.net
+---
+
+<div class="g-wrap">
+  <div class="d0-card g-intro">
+    <div class="d0-card-heading">&#9656; Small games for small moments</div>
+    <p>Simple, relaxing games made for a phone. No ads, no accounts, no timers. Everything here works offline once it
+      has loaded.</p>
+  </div>
+
+  <div class="g-grid">
+    {% for game in site.data.games %}
+    <a href="{{ game.link | relative_url }}" class="g-card">
+      <span class="g-card-icon">{{ game.icon }}</span>
+      <span class="g-card-body">
+        <span class="g-card-name">{{ game.name }}</span>
+        <span class="g-card-blurb">{{ game.blurb }}</span>
+        <span class="g-card-tags">{{ game.tags }}</span>
+      </span>
+      <span class="g-card-play">play &#9654;</span>
+    </a>
+    {% endfor %}
+  </div>
+
+</div>

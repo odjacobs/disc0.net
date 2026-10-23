@@ -1,0 +1,10 @@
+- name: Arrows
+  link: /games/arrows/
+  blurb: Clear the board one arrow at a time. Tap an arrow and it slides off along its own winding path, but only if nothing is in front of it.
+  tags: puzzle · relaxing · no timer
+  icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square" stroke-linejoin="miter"><path d="M4 12h13M12 6l6 6-6 6"/></svg>'
+- name: Potions
+  link: /games/potions/
+  blurb: Pour coloured potions between bottles until every bottle holds one colour. Undo as much as you like.
+  tags: puzzle · sorting · no timer
+  icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" stroke-linejoin="miter"><path d="M9 3h6M10 3v5l-5 9a3 3 0 0 0 3 4h8a3 3 0 0 0 3-4l-5-9V3"/><path d="M7 15h10" /></svg>'

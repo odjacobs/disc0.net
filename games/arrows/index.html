@@ -1,0 +1,33 @@
+---
+layout: game
+title: Arrows
+description: A relaxing arrow escape puzzle. Tap arrows to slide them off the board, but only when the way is clear. Hundreds of levels, no timer, no ads.
+image: /games/icons/icon-512.png
+back: /games/
+back_label: games
+---
+
+<div class="ar-wrap">
+  <div class="ar-hud">
+    <button class="g-btn ar-level" id="ar-level-btn" type="button">Level 1</button>
+    <div class="ar-hearts" id="ar-hearts" aria-live="polite"></div>
+    <button class="g-btn ar-hint" id="ar-hint-btn" type="button">hint</button>
+  </div>
+
+  <div class="ar-stage" id="ar-stage">
+    <div class="ar-board" id="ar-board" aria-label="Puzzle board"></div>
+  </div>
+
+  <p class="ar-tip">tap an arrow and it slides off along its own path, tail and all. it only goes if nothing is in front of its head.</p>
+</div>
+
+<div class="g-overlay" id="g-overlay" hidden>
+  <div class="g-dialog" role="dialog" aria-modal="true">
+    <div class="g-dialog-title" id="g-dialog-title"></div>
+    <p class="g-dialog-text" id="g-dialog-text"></p>
+    <div class="g-dialog-btns" id="g-dialog-btns"></div>
+    <div class="g-stat" id="g-dialog-stat"></div>
+  </div>
+</div>
+
+<script src="{{ '/games/arrows/arrows.js' | relative_url }}"></script>

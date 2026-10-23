@@ -1,0 +1,569 @@
+/* Disc0 Games — PWA shell + launcher + Arrows. Loads after main.css for the theme vars. */
+
+:root,
+[data-theme="light"] {
+  --g-grid-dot: rgba(33, 29, 22, .28);
+  --g-purple: #5a3aa6;
+  --g-line: #211d16;
+}
+
+[data-theme="dark"] {
+  --g-grid-dot: rgba(236, 227, 207, .22);
+  --g-purple: #9b7fe0;
+  --g-line: #ece3cf;
+}
+
+html, body.g-body {
+  height: 100%;
+}
+
+body.g-body {
+  margin: 0;
+  padding: 0;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  overscroll-behavior: none;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* top bar: sits under the iOS status bar when installed */
+.g-top {
+  flex: 0 0 auto;
+  background: var(--teal);
+  background-image: linear-gradient(var(--teal-top), var(--teal));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .35), inset 0 -2px 0 rgba(0, 0, 0, .3);
+  border-bottom: 1px solid var(--line);
+  padding: 10px 14px;
+  padding-top: calc(10px + env(safe-area-inset-top));
+  padding-left: calc(14px + env(safe-area-inset-left));
+  padding-right: calc(14px + env(safe-area-inset-right));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.g-back {
+  font-family: 'Silkscreen', monospace;
+  font-size: 12px;
+  text-decoration: none;
+  color: #cdeeee;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 34px;
+  min-height: 30px;
+}
+
+.g-back:hover { color: #fff; }
+
+.g-title {
+  font-family: 'Silkscreen', monospace;
+  font-size: 20px;
+  color: var(--titletext);
+  text-shadow: 2px 2px 0 #033f3f;
+}
+
+.g-toggle { flex: 0 0 auto; }
+
+.g-main {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  padding-left: calc(16px + env(safe-area-inset-left));
+  padding-right: calc(16px + env(safe-area-inset-right));
+  padding-bottom: calc(16px + env(safe-area-inset-bottom));
+}
+
+/* ---------- launcher ---------- */
+.g-wrap {
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.g-intro p { margin: 0; }
+
+.g-install {
+  background: var(--teal);
+  color: #fff;
+  border: 1px solid var(--line);
+  box-shadow: inset 1px 1px 0 rgba(255, 255, 255, .3), inset -2px -2px 0 rgba(0, 0, 0, .3);
+  padding: 14px 16px;
+  font-size: 13px;
+  line-height: 1.55;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.g-install strong {
+  font-family: 'Silkscreen', monospace;
+  font-size: 12px;
+  font-weight: normal;
+  color: var(--gold);
+}
+
+.g-install b { color: var(--gold); font-weight: 600; }
+
+.g-install-btn { align-self: flex-start; margin-top: 4px; }
+
+.g-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.g-card {
+  display: grid;
+  grid-template-columns: 56px 1fr auto;
+  gap: 14px;
+  align-items: center;
+  text-decoration: none;
+  color: var(--ink);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  box-shadow: inset 1px 1px 0 var(--bevel-hi), inset -2px -2px 0 var(--bevel-lo);
+  padding: 14px 16px;
+}
+
+.g-card:hover { background: var(--btn-active); }
+.g-card:active { box-shadow: inset -1px -1px 0 var(--bevel-hi), inset 2px 2px 0 var(--bevel-lo); }
+
+.g-card-icon {
+  width: 56px;
+  height: 56px;
+  background: var(--gold);
+  color: #211d16;
+  border: 2px solid var(--line);
+  box-shadow: inset 1px 1px 0 #fff8d8, inset -2px -2px 0 rgba(0, 0, 0, .25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.g-card-icon svg { width: 32px; height: 32px; }
+
+.g-card-body { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+
+.g-card-name {
+  font-family: 'Silkscreen', monospace;
+  font-size: 15px;
+  color: var(--teal);
+}
+
+.g-card-blurb { font-size: 13px; line-height: 1.5; }
+
+.g-card-tags {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.g-card-play {
+  font-family: 'Silkscreen', monospace;
+  font-size: 11px;
+  color: var(--coral);
+  white-space: nowrap;
+}
+
+.g-soon { padding: 18px; }
+
+@media (max-width: 400px) {
+  .g-card { grid-template-columns: 48px 1fr; }
+  .g-card-icon { width: 48px; height: 48px; }
+  .g-card-play { grid-column: 2; justify-self: end; }
+}
+
+/* ---------- arrows ---------- */
+.ar-wrap {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ar-hud {
+  flex: 0 0 auto;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 8px;
+}
+
+.g-btn {
+  font-family: 'Silkscreen', monospace;
+  font-size: 12px;
+  color: var(--teal);
+  background: var(--btn);
+  border: 1px solid var(--line);
+  box-shadow: inset 1px 1px 0 var(--bevel-hi), inset -2px -2px 0 var(--bevel-lo);
+  padding: 9px 13px;
+  cursor: pointer;
+  min-height: 40px;
+}
+
+.g-btn:hover { background: var(--btn-active); }
+.g-btn:active { box-shadow: inset -1px -1px 0 var(--bevel-hi), inset 2px 2px 0 var(--bevel-lo); }
+.g-btn--coral { color: #fff; background: var(--coral); }
+.g-btn--coral:hover { background: var(--coral); filter: brightness(1.08); }
+
+.ar-level { justify-self: start; }
+.ar-hint { justify-self: end; }
+
+.ar-hearts {
+  display: flex;
+  gap: 5px;
+  font-size: 22px;
+  line-height: 1;
+  color: var(--coral);
+}
+
+.ar-hearts span { transition: transform .25s, opacity .25s; }
+.ar-hearts span.is-lost { opacity: .22; transform: scale(.8); }
+
+.ar-stage {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ar-board {
+  position: relative;
+  overflow: hidden;
+  background: var(--panel);
+  background-image: radial-gradient(var(--g-grid-dot) 1.5px, transparent 1.6px);
+  border: 1px solid var(--line);
+  box-shadow: inset 1px 1px 0 var(--bevel-hi), inset -2px -2px 0 var(--bevel-lo), 0 6px 18px rgba(0, 0, 0, .14);
+}
+
+.ar-board.is-shake { animation: ar-shake .3s; }
+
+@keyframes ar-shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-3px); }
+  75% { transform: translateX(3px); }
+}
+
+.ar-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.ar-arrow {
+  cursor: pointer;
+  outline: none;
+  filter: drop-shadow(0.04px 0.04px 0 rgba(0, 0, 0, .25));
+}
+
+@media (hover: hover) {
+  .ar-arrow:hover { opacity: .88; }
+}
+
+.ar-arrow:focus-visible .ar-body { opacity: .5; }
+
+.ar-hit rect {
+  fill: transparent;
+  stroke: none;
+  /* not "all": Chrome mis-routes hits between neighbouring groups with it */
+  pointer-events: fill;
+}
+
+/* while an arrow is sliding or bumping, its squares pass over neighbours:
+   let taps fall through to whatever is underneath */
+.ar-arrow.is-leaving,
+.ar-arrow.is-bumping .ar-hit rect,
+.ar-arrow.is-leaving .ar-hit rect { pointer-events: none; }
+
+.ar-body {
+  fill: none;
+  stroke-width: .24;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+
+.ar-tip { stroke: none; }
+
+/* colours cycle by arrow id */
+.ar-c0 .ar-body { stroke: var(--teal); }     .ar-c0 .ar-tip { fill: var(--teal); }
+.ar-c1 .ar-body { stroke: var(--coral); }    .ar-c1 .ar-tip { fill: var(--coral); }
+.ar-c2 .ar-body { stroke: var(--g-purple); } .ar-c2 .ar-tip { fill: var(--g-purple); }
+.ar-c3 .ar-body { stroke: var(--g-line); }   .ar-c3 .ar-tip { fill: var(--g-line); }
+
+.ar-arrow.is-hit { animation: ar-hit .4s; }
+
+@keyframes ar-hit {
+  0%, 100% { opacity: 1; }
+  30%, 70% { opacity: .3; }
+}
+
+.ar-arrow.is-hint { animation: ar-hint .7s ease-in-out 3; }
+
+@keyframes ar-hint {
+  0%, 100% { opacity: 1; }
+  50% { opacity: .25; }
+}
+
+.ar-tip {
+  flex: 0 0 auto;
+  margin: 0;
+  text-align: center;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+/* overlay dialogs */
+.g-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  background: rgba(33, 29, 22, .55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.g-overlay[hidden] { display: none; }
+
+.g-dialog {
+  width: 100%;
+  max-width: 340px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  box-shadow: inset 1px 1px 0 var(--bevel-hi), inset -2px -2px 0 var(--bevel-lo), 0 10px 30px rgba(0, 0, 0, .35);
+  padding: 20px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  animation: ar-pop .22s ease-out;
+}
+
+@keyframes ar-pop {
+  from { transform: scale(.92); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.g-dialog-title {
+  font-family: 'Silkscreen', monospace;
+  font-size: 18px;
+  color: var(--teal);
+}
+
+.g-dialog-title.is-coral { color: var(--coral); }
+
+.g-dialog-text {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.g-dialog-text b { color: var(--coral); font-weight: 600; }
+
+.g-dialog-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.g-dialog-btns .g-btn { flex: 1 1 auto; }
+
+.g-stat {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+/* ---------- potions ---------- */
+:root,
+[data-theme="light"] {
+  --po-coral: #d2542f; --po-teal: #0b8a8a; --po-gold: #f0c419; --po-purple: #6a46c2;
+  --po-mint: #3dc98f; --po-sky: #3b9ae1; --po-pink: #e868a2; --po-lime: #a3c824;
+  --po-orange: #f08a24; --po-navy: #2b3f8c; --po-brown: #8a5a2b; --po-red: #b8252b;
+  --po-glass: rgba(255, 255, 255, .35);
+  --po-glass-edge: rgba(33, 29, 22, .55);
+}
+
+[data-theme="dark"] {
+  --po-glass: rgba(255, 255, 255, .06);
+  --po-glass-edge: rgba(236, 227, 207, .5);
+}
+
+.po-wrap {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.po-hud {
+  flex: 0 0 auto;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 8px;
+}
+
+.po-level { justify-self: start; }
+.po-undo { justify-self: end; }
+.po-undo:disabled { opacity: .45; cursor: default; }
+
+.po-moves {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.po-stage {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.po-rack {
+  --per-row: 5;
+  --gap: 10px;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 26px var(--gap);
+  padding: 8px 0;
+}
+
+.po-bottle {
+  position: relative;
+  appearance: none;
+  background: none;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  touch-action: manipulation;
+  width: calc((100% - var(--gap) * (var(--per-row) - 1)) / var(--per-row));
+  max-width: 64px;
+  aspect-ratio: 1 / 2.7;
+}
+
+/* the visual bottle: moves freely while the button underneath stays put for taps */
+.po-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  transition: transform .18s ease-out;
+  will-change: transform;
+}
+
+.po-bottle:focus-visible { outline: 2px dashed var(--ink); outline-offset: 4px; }
+.po-bottle.is-selected .po-body { transform: translateY(-14px); }
+.po-bottle.is-done .po-glass { box-shadow: inset 0 0 0 2px var(--po-glass-edge), 0 0 0 3px var(--gold); }
+.po-bottle.is-nudge .po-body { animation: po-nudge .3s; }
+
+@keyframes po-nudge {
+  0%, 100% { transform: translateX(0); }
+  30% { transform: translateX(-4px); }
+  70% { transform: translateX(4px); }
+}
+
+.po-neck {
+  width: 62%;
+  height: 9%;
+  border: 2px solid var(--po-glass-edge);
+  border-bottom: 0;
+  border-radius: 6px 6px 0 0;
+  background: var(--po-glass);
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, .5);
+}
+
+.po-glass {
+  position: relative;
+  width: 100%;
+  flex: 1 1 auto;
+  border: 2px solid var(--po-glass-edge);
+  border-radius: 8px 8px 50% 50% / 8px 8px 26% 26%;
+  background: var(--po-glass);
+  overflow: hidden;
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, .25);
+}
+
+.po-liquid {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.po-layer {
+  flex: 0 0 auto;
+  width: 100%;
+  height: 0;
+  transition: height .32s ease-in-out;
+  box-shadow: inset 0 3px 0 rgba(255, 255, 255, .22), inset 0 -2px 0 rgba(0, 0, 0, .12);
+}
+
+.po-shine {
+  position: absolute;
+  top: 8%;
+  left: 12%;
+  width: 14%;
+  height: 70%;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .35);
+  pointer-events: none;
+}
+
+.po-coral { background: var(--po-coral); }   .po-teal { background: var(--po-teal); }
+.po-gold { background: var(--po-gold); }     .po-purple { background: var(--po-purple); }
+.po-mint { background: var(--po-mint); }     .po-sky { background: var(--po-sky); }
+.po-pink { background: var(--po-pink); }     .po-lime { background: var(--po-lime); }
+.po-orange { background: var(--po-orange); } .po-navy { background: var(--po-navy); }
+.po-brown { background: var(--po-brown); }   .po-red { background: var(--po-red); }
+
+.po-tip {
+  flex: 0 0 auto;
+  margin: 0;
+  text-align: center;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .po-body, .po-layer { transition: none; }
+  .po-bottle.is-nudge .po-body { animation: none; }
+  .ar-board.is-shake, .ar-arrow.is-hit, .ar-arrow.is-hint, .g-dialog { animation: none; }
+}

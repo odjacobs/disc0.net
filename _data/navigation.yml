@@ -2,6 +2,8 @@
   link: /
 - name: About
   link: /about
+- name: Games
+  link: /games/
 - name: LinkedIn
   link: https://www.linkedin.com/in/odjacobs
 - name: GitHub

@@ -1,0 +1,33 @@
+---
+layout: game
+title: Potions
+description: A relaxing potion sorting puzzle. Pour coloured potions between bottles until every bottle holds a single colour. Unlimited undo, no timer, no ads.
+image: /games/icons/icon-512.png
+back: /games/
+back_label: games
+---
+
+<div class="po-wrap">
+  <div class="po-hud">
+    <button class="g-btn po-level" id="po-level-btn" type="button">Level 1</button>
+    <div class="po-moves" id="po-moves">0 moves</div>
+    <button class="g-btn po-undo" id="po-undo-btn" type="button" disabled>undo</button>
+  </div>
+
+  <div class="po-stage">
+    <div class="po-rack" id="po-rack" aria-label="Bottles"></div>
+  </div>
+
+  <p class="po-tip">tap a bottle to pick it up, tap another to pour. same colour on same colour, or into an empty bottle.</p>
+</div>
+
+<div class="g-overlay" id="g-overlay" hidden>
+  <div class="g-dialog" role="dialog" aria-modal="true">
+    <div class="g-dialog-title" id="g-dialog-title"></div>
+    <p class="g-dialog-text" id="g-dialog-text"></p>
+    <div class="g-dialog-btns" id="g-dialog-btns"></div>
+    <div class="g-stat" id="g-dialog-stat"></div>
+  </div>
+</div>
+
+<script src="{{ '/games/potions/potions.js' | relative_url }}"></script>

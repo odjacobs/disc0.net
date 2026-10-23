@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="{{ site.lang | default: 'en-US' }}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>{% if page.title %}{{ page.title }} | {{ site.title | default: site.name }}{% else %}{{ site.title | default: site.name }}{% endif %}</title>
+    {% assign seo_description = page.description | default: site.description %}
+    <meta name="description" content="{{ seo_description | strip_html | normalize_whitespace | escape }}">
+    <link rel="canonical" href="{{ page.url | absolute_url }}">
+
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="{{ site.title | default: site.name }}">
+    <meta property="og:title" content="{{ page.title }} | {{ site.title | default: site.name }}">
+    <meta property="og:url" content="{{ page.url | absolute_url }}">
+    <meta property="og:description" content="{{ seo_description | strip_html | normalize_whitespace | escape }}">
+    {% assign seo_image = page.image | default: site.image %}
+    <meta property="og:image" content="{{ seo_image | absolute_url }}">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="{{ page.title }} | {{ site.title | default: site.name }}">
+    <meta name="twitter:description" content="{{ seo_description | strip_html | normalize_whitespace | escape }}">
+    <meta name="twitter:image" content="{{ seo_image | absolute_url }}">
+    <meta name="robots" content="index, follow">
+
+    <!-- PWA -->
+    <link rel="manifest" href="{{ '/games/manifest.webmanifest' | relative_url }}">
+    <meta name="theme-color" content="#0b6e6e">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Games">
+    <link rel="apple-touch-icon" href="{{ '/games/icons/apple-touch-icon.png' | relative_url }}">
+    <link rel="icon" href="{{ '/favicon.ico' | relative_url }}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ '/main.css' | relative_url }}" />
+    <link rel="stylesheet" href="{{ '/games/games.css' | relative_url }}" />
+
+    <script>
+      (function () {
+        var stored = localStorage.getItem('disc0-theme');
+        var theme = stored || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script>
+</head>
+
+<body class="g-body">
+    <header class="g-top">
+        <a class="g-back" href="{{ page.back | default: '/' }}" aria-label="Back">&#9664;<span class="g-back-label">{{ page.back_label | default: 'disc0.net' }}</span></a>
+        <span class="g-title">{{ page.title }}</span>
+        <button class="d0-toggle g-toggle" id="d0-theme-toggle" title="Toggle light / dark">&#9790;</button>
+    </header>
+
+    <main class="g-main">
+        {{ content }}
+    </main>
+
+    <script src="{{ '/games/pwa.js' | relative_url }}"></script>
+</body>
+
+</html>

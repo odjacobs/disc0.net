@@ -434,5 +434,20 @@
   overlay.addEventListener('click', function (e) { if (e.target === overlay && !over) hideDialog(); });
   window.addEventListener('resize', fitBoard);
 
+  // iOS still zooms on a quick double tap even with touch-action: manipulation
+  // (notably when installed to the home screen, or when the two taps land on
+  // different elements, which happens all the time once an arrow slides away).
+  // Cancelling the second touchend is the only thing WebKit reliably honours.
+  // Taps are unaffected: the board acts on pointerdown, not click.
+  var lastTouchEnd = 0;
+  stageEl.addEventListener('touchend', function (e) {
+    var now = Date.now();
+    if (now - lastTouchEnd < 350) e.preventDefault();
+    lastTouchEnd = now;
+  }, { passive: false });
+
+  // Pinch zoom on iOS (non-standard event, harmless elsewhere).
+  document.addEventListener('gesturestart', function (e) { e.preventDefault(); }, { passive: false });
+
   startLevel(progress.level);
 })();

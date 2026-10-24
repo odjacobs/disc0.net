@@ -69,13 +69,15 @@
   function bodyLength(a) { return TAIL_STUB + (a.cells.length - 1) + HEAD_TUCK; }
 
   // Walk ahead of the head. blocker is -1 for a clear path; gap counts empty cells.
+  // An arrow's own body counts as a blocker too: a head pointing back into its
+  // tail reads as stuck, so the generator must never produce one.
   function pathInfo(b, occ, a) {
     var d = DIRS[a.dir], h = headOf(a), hx = h[0], hy = h[1], gap = 0;
     for (;;) {
       hx += d[0]; hy += d[1];
       if (hx < 0 || hy < 0 || hx >= b.w || hy >= b.h) return { blocker: -1, gap: gap };
       var o = occ[hy * b.w + hx];
-      if (o !== -1 && o !== a.id) return { blocker: o, gap: gap };
+      if (o !== -1) return { blocker: o, gap: gap };
       gap++;
     }
   }
